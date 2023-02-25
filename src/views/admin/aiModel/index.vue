@@ -1,5 +1,5 @@
 <!--
- * @Description: 新增交易流程
+ * @Description: ai模型管理
  * @version: 1.0
  * @Author: 吴东宇
  * @Date: 2023-02-06 14:16:18
@@ -13,14 +13,12 @@ import { reactive } from "vue";
 import { useDialog } from "@/hook/useDialog";
 import { message } from "@/utils/message";
 import TableBox from "@/components/Table/TableBox.vue";
-import { getUserList } from "@/api/user";
-import { openAiResults } from "@/api/ai";
+import {aiModelList} from "@/api/ai";
 
 const { openDialog, closeDialog, dialog } = useDialog();
 const listQuery = reactive({});
 const { total, list, pageQuery, onSearch, onReset, currentChange, sizeChange } =
-  useList(getUserList, listQuery);
-
+  useList(aiModelList, listQuery);
 function openAdd() {
   openDialog("new");
 }
@@ -65,22 +63,10 @@ function onDelete() {
     .catch(() => ({}));
 }
 
-onSearch();
-const msg = ref("");
-const ask = async () => {
-  const res = await openAiResults({
-    prompt: "你能说中文吗？",
-    userId: "",
-    aiModelId: "",
-    version: "1"
-  });
-  msg.value = JSON.parse(res.data);
-};
+onSearch()
 </script>
 <template>
   <div>
-    <el-button @click="ask">获取答案</el-button>
-    <div>{{ msg?.choices }}</div>
     <TableBox
       :total="total"
       :current="pageQuery.current"
@@ -101,25 +87,23 @@ const ask = async () => {
       <template #default>
         <el-table :data="list">
           <el-table-column label="序号" type="index" prop="AAAA" />
-          <el-table-column label="账号" prop="username" />
-          <el-table-column label="密码" prop="password" />
-          <el-table-column label="邮箱" prop="email" />
-          <el-table-column label="会员等级" prop="vip" />
-          <el-table-column label="更新时间" prop="updateTime" />
+          <el-table-column label="模型名称" prop="name" />
+          <el-table-column label="模型类型" prop="type" />
+          <el-table-column label="价格" prop="price" />
           <el-table-column label="创建时间" prop="createTime" />
           <el-table-column label="操作" fixed="right" width="250px">
             <template #default="{ row }">
               <el-button link type="primary" @click="openEdit(row)"
-                >编辑
+              >编辑
               </el-button>
               <el-button link type="success" @click="onEnable(row)"
-                >启用
+              >启用
               </el-button>
               <el-button link type="danger" @click="onDisable(row)"
-                >禁用
+              >禁用
               </el-button>
               <el-button link type="danger" @click="onDelete(row)"
-                >删除
+              >删除
               </el-button>
             </template>
           </el-table-column>

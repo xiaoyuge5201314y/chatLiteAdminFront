@@ -37,3 +37,8 @@ export const getLogin = (data?: object) => {
 export const refreshTokenApi = (data?: object) => {
   return http.request<RefreshTokenResult>("post", "/refreshToken", { data });
 };
+
+// 后台管理-用户管理-不分页列表
+export const getUserList = () => {
+  return http.request<any>("get", "/user/list");
+};

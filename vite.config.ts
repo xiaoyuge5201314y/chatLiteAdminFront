@@ -29,8 +29,10 @@ const __APP_INFO__ = {
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH } =
     warpperEnv(loadEnv(mode, root));
+
   return {
     base: VITE_PUBLIC_PATH,
+
     root,
     resolve: {
       alias
@@ -41,9 +43,16 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       https: false,
       // 端口号
       port: VITE_PORT,
-      host: "0.0.0.0",
+      host: "localhost",
       // 本地跨域代理 https://cn.vitejs.dev/config/server-options.html#server-proxy
-      proxy: {}
+      proxy: {
+        "^/api/.*": {
+          // 这里填写后端地址
+          target: "http://localhost:8080",
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, "")
+        }
+      }
     },
     plugins: getPluginsList(command, VITE_CDN, VITE_COMPRESSION),
     // https://cn.vitejs.dev/config/dep-optimization-options.html#dep-optimization-options

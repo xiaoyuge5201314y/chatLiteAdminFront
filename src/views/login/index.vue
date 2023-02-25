@@ -17,6 +17,8 @@ import dayIcon from "@/assets/svg/day.svg?component";
 import darkIcon from "@/assets/svg/dark.svg?component";
 import Lock from "@iconify-icons/ri/lock-fill";
 import User from "@iconify-icons/ri/user-3-fill";
+import {usePermissionStoreHook} from "@/store/modules/permission";
+import {setToken} from "@/utils/auth";
 
 defineOptions({
   name: "Login"
@@ -42,17 +44,27 @@ const onLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      useUserStoreHook()
-        .loginByUsername({ username: ruleForm.username, password: "admin123" })
-        .then(res => {
-          if (res.success) {
-            // 获取后端路由
-            initRouter().then(() => {
-              router.push("/");
-              message("登录成功", { type: "success" });
-            });
-          }
-        });
+      // 全部采取静态路由模式
+      usePermissionStoreHook().handleWholeMenus([]);
+      setToken({
+        username: "admin",
+        roles: ["admin"],
+        accessToken: "eyJhbGciOiJIUzUxMiJ9.admin"
+      } as any);
+      router.push("/");
+      message("登录成功", { type: "success" });
+
+      // useUserStoreHook()
+      //   .loginByUsername({ username: ruleForm.username, password: "admin123" })
+      //   .then(res => {
+      //     if (res.success) {
+      //       // 获取后端路由
+      //       initRouter().then(() => {
+      //         router.push("/");
+      //         message("登录成功", { type: "success" });
+      //       });
+      //     }
+      //   });
     } else {
       loading.value = false;
       return fields;

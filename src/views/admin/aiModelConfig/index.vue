@@ -1,5 +1,5 @@
 <!--
- * @Description: 新增交易流程
+ * @Description: ai模型管理
  * @version: 1.0
  * @Author: 吴东宇
  * @Date: 2023-02-06 14:16:18
@@ -13,14 +13,12 @@ import { reactive } from "vue";
 import { useDialog } from "@/hook/useDialog";
 import { message } from "@/utils/message";
 import TableBox from "@/components/Table/TableBox.vue";
-import { getUserList } from "@/api/user";
-import { openAiResults } from "@/api/ai";
+import { aiModelConfigList } from "@/api/ai";
 
 const { openDialog, closeDialog, dialog } = useDialog();
 const listQuery = reactive({});
 const { total, list, pageQuery, onSearch, onReset, currentChange, sizeChange } =
-  useList(getUserList, listQuery);
-
+  useList(aiModelConfigList, listQuery);
 function openAdd() {
   openDialog("new");
 }
@@ -66,21 +64,9 @@ function onDelete() {
 }
 
 onSearch();
-const msg = ref("");
-const ask = async () => {
-  const res = await openAiResults({
-    prompt: "你能说中文吗？",
-    userId: "",
-    aiModelId: "",
-    version: "1"
-  });
-  msg.value = JSON.parse(res.data);
-};
 </script>
 <template>
   <div>
-    <el-button @click="ask">获取答案</el-button>
-    <div>{{ msg?.choices }}</div>
     <TableBox
       :total="total"
       :current="pageQuery.current"
@@ -100,14 +86,19 @@ const ask = async () => {
       </template>
       <template #default>
         <el-table :data="list">
-          <el-table-column label="序号" type="index" prop="AAAA" />
-          <el-table-column label="账号" prop="username" />
-          <el-table-column label="密码" prop="password" />
-          <el-table-column label="邮箱" prop="email" />
-          <el-table-column label="会员等级" prop="vip" />
-          <el-table-column label="更新时间" prop="updateTime" />
-          <el-table-column label="创建时间" prop="createTime" />
-          <el-table-column label="操作" fixed="right" width="250px">
+          <el-table-column width="70px" label="序号" type="index" prop="AAAA" />
+          <el-table-column min-width="100px" label="模型名称" prop="name" />
+          <el-table-column min-width="100px" label="模型类型" prop="type" />
+          <el-table-column min-width="100px" label="价格" prop="price" />
+          <el-table-column min-width="100px" label="用户id" prop="userId" />
+          <el-table-column min-width="100px" label="模型描述" prop="description" />
+          <el-table-column min-width="100px" label="模型id" prop="modelId" />
+          <el-table-column min-width="100px" label="模型使用次数" prop="useCount" />
+          <el-table-column min-width="100px" label="长度参数" prop="pLength" />
+          <el-table-column min-width="100px" label="温度参数" prop="temperature" />
+          <el-table-column min-width="100px" label="最大token数" prop="maxTokens" />
+          <el-table-column min-width="100px" label="创建时间" prop="createTime" />
+          <el-table-column min-width="100px" label="操作" fixed="right" width="250px">
             <template #default="{ row }">
               <el-button link type="primary" @click="openEdit(row)"
                 >编辑
