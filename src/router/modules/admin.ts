@@ -34,6 +34,14 @@ export default {
       meta: {
         title: "模型配置管理"
       }
+    },
+    {
+      path: "/messageManager",
+      name: "messageManager",
+      component: () => import("@/views/admin/message/index.vue"),
+      meta: {
+        title: "消息管理"
+      }
     }
   ]
 } as RouteConfigsTable;

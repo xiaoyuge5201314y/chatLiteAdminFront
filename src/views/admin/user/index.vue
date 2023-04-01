@@ -12,9 +12,9 @@ import { useList } from "@/hook/useList";
 import { reactive } from "vue";
 import { useDialog } from "@/hook/useDialog";
 import { message } from "@/utils/message";
-import TableBox from "@/components/Table/TableBox.vue";
+import TableBox from "@/components/Table/TableBox.vue";·
 import { getUserList } from "@/api/user";
-import { openAiResults } from "@/api/ai";
+import {messageList, openAiResults} from "@/api/ai";
 
 const { openDialog, closeDialog, dialog } = useDialog();
 const listQuery = reactive({});
@@ -68,6 +68,7 @@ function onDelete() {
 onSearch();
 const msg = ref("");
 const ask = async () => {
+  // messageList()
   const res = await openAiResults({
     prompt: "你能说中文吗？",
     userId: "",
@@ -80,7 +81,7 @@ const ask = async () => {
 <template>
   <div>
     <el-button @click="ask">获取答案</el-button>
-    <div>{{ msg?.choices }}</div>
+    <div>{{ msg }}</div>
     <TableBox
       :total="total"
       :current="pageQuery.current"

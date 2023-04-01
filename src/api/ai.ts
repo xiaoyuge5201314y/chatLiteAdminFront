@@ -12,6 +12,13 @@ export const aiModelList = ()=> {
 
 
 // ai模型配置管理-列表不分页
-export const aiModelConfigList = ()=> {
+export const aiModelConfigList = () => {
   return http.request<any>("get", "/aiModelConfig/list");
+};
+
+/**
+ * 消息-消息列表
+ */
+export const messageList = () => {
+  return http.request<any>("get", "/chatMessage/list/1");
 };

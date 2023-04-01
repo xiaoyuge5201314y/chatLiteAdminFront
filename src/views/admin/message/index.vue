@@ -1,5 +1,5 @@
 <!--
- * @Description: ai模型管理
+ * @Description:消息管理
  * @version: 1.0
  * @Author: 吴东宇
  * @Date: 2023-02-06 14:16:18
@@ -13,12 +13,13 @@ import { reactive } from "vue";
 import { useDialog } from "@/hook/useDialog";
 import { message } from "@/utils/message";
 import TableBox from "@/components/Table/TableBox.vue";
-import { aiModelConfigList } from "@/api/ai";
+import { messageList } from "@/api/ai";
 
 const { openDialog, closeDialog, dialog } = useDialog();
 const listQuery = reactive({});
 const { total, list, pageQuery, onSearch, onReset, currentChange, sizeChange } =
-  useList(aiModelConfigList, listQuery);
+  useList(messageList, listQuery);
+
 function openAdd() {
   openDialog("new");
 }
@@ -75,30 +76,41 @@ onSearch();
       @size-change="sizeChange"
     >
       <template #header>
-<!--                <QueryBox @search="onSearch" @reset="onReset">-->
-<!--                  <template #show>-->
-<!--                    <QueryItem> 123</QueryItem>-->
-<!--                  </template>-->
-<!--                  <template #addBtn>-->
-<!--                    <el-button type="primary">新 增</el-button>-->
-<!--                  </template>-->
-<!--                </QueryBox>-->
+        <el-button type="success" @click="openDialog('add')">新增</el-button>
+        <QueryBox @search="onSearch" @reset="onReset">
+          <template #show>
+            <QueryItem> 123</QueryItem>
+          </template>
+          <template #addBtn>
+            <el-button type="primary">新 增</el-button>
+          </template>
+        </QueryBox>
       </template>
       <template #default>
         <el-table :data="list">
           <el-table-column width="70px" label="序号" type="index" prop="AAAA" />
-          <el-table-column min-width="100px" label="模型名称" prop="name" />
-          <el-table-column min-width="100px" label="模型类型" prop="type" />
-          <el-table-column min-width="100px" label="价格" prop="price" />
-          <el-table-column min-width="100px" label="用户id" prop="userId" />
-          <el-table-column min-width="100px" label="模型描述" prop="description" />
-          <el-table-column min-width="100px" label="模型id" prop="modelId" />
-          <el-table-column min-width="100px" label="模型使用次数" prop="useCount" />
-          <el-table-column min-width="100px" label="长度参数" prop="pLength" />
-          <el-table-column min-width="100px" label="温度参数" prop="temperature" />
-          <el-table-column min-width="100px" label="最大token数" prop="maxTokens" />
-          <el-table-column min-width="100px" label="创建时间" prop="createTime" />
-          <el-table-column min-width="100px" label="操作" fixed="right" width="250px">
+          <el-table-column
+            min-width="100px"
+            label="模型名称"
+            prop="aiModelId"
+          />
+          <el-table-column min-width="100px" label="用户" prop="userId" />
+          <el-table-column
+            min-width="100px"
+            label="创建时间"
+            prop="createTime"
+          />
+          <el-table-column
+            min-width="100px"
+            label="更新时间"
+            prop="updateTime"
+          />
+          <el-table-column
+            min-width="100px"
+            label="操作"
+            fixed="right"
+            width="250px"
+          >
             <template #default="{ row }">
               <el-button link type="primary" @click="openEdit(row)"
                 >编辑
@@ -117,7 +129,7 @@ onSearch();
         </el-table>
       </template>
     </TableBox>
-    <!--    <Edit v-if="dialog['new']" @close="closeAdd" @complete="addComplete" />-->
+<!--      <Edit v-if="dialog['new']" @close="closeAdd" @complete="addComplete" />-->
     <!--    <Edit-->
     <!--      v-if="dialog['edit']"-->
     <!--      :row="dialog['row']"-->
