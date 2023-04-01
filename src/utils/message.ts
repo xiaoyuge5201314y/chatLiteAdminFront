@@ -81,5 +81,10 @@ const message = (
  * 关闭所有 `Message` 消息提示函数
  */
 const closeAllMessage = (): void => ElMessage.closeAll();
-
-export { message, closeAllMessage };
+function successMessage(str: string) {
+  ElMessage.success(str);
+}
+function errorMessage(str: string) {
+  ElMessage.error(str);
+}
+export { message, closeAllMessage, successMessage, errorMessage };

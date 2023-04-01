@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Version: 1.0
+ * @Author: wudongyu
+ * @Date: 2023-02-26 12:01:59
+ * @LastEditors: wudongyu
+ * @LastEditTime: 2023-04-01 06:15:20
+ */
 import dayjs from "dayjs";
 import { resolve } from "path";
 import pkg from "./package.json";
@@ -48,7 +56,9 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       proxy: {
         "^/api/.*": {
           // 这里填写后端地址
-          target: "http://localhost:8080",
+          // target: "http://localhost:8080",
+          target: "http://192.168.1.3:9528",
+          // target: `${import.meta.env.VITE_BASEURL}`,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, "")
         }

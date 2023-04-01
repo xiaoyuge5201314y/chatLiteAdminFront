@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Version: 1.0
+ * @Author: wudongyu
+ * @Date: 2023-02-26 12:01:59
+ * @LastEditors: wudongyu
+ * @LastEditTime: 2023-04-01 06:10:45
+ */
 import App from "./App.vue";
 import router from "./router";
 import { setupStore } from "@/store";
@@ -21,7 +29,9 @@ import "element-plus/dist/index.css";
 // 导入字体图标
 import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
-
+import QueryBox from "./components/QueryBox/index.vue";
+import QueryItem from "./components/QueryBox/QueryItem.vue";
+import InputBox from "./components/InputBox";
 const app = createApp(App);
 
 // 自定义指令
@@ -39,7 +49,9 @@ import {
 app.component("IconifyIconOffline", IconifyIconOffline);
 app.component("IconifyIconOnline", IconifyIconOnline);
 app.component("FontIcon", FontIcon);
-
+app.component("QueryBox", QueryBox);
+app.component("QueryItem", QueryItem);
+app.component("InputBox", InputBox);
 // 全局注册按钮级别权限组件
 import { Auth } from "@/components/ReAuth";
 app.component("Auth", Auth);

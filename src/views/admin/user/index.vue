@@ -35,7 +35,7 @@ function closeAdd() {
 
 function closeEdit() {
   closeDialog("edit");
-  init();
+  onSearch();
 }
 
 function addComplete() {
@@ -89,14 +89,14 @@ const ask = async () => {
       @size-change="sizeChange"
     >
       <template #header>
-        <!--        <QueryBox @search="onSearch" @reset="onReset">-->
-        <!--          <template #show>-->
-        <!--            <QueryItem> 123</QueryItem>-->
-        <!--          </template>-->
-        <!--          <template #addBtn>-->
-        <!--            <el-button type="primary">新 增</el-button>-->
-        <!--          </template>-->
-        <!--        </QueryBox>-->
+        <QueryBox @search="onSearch" @reset="onReset" @add="openAdd">
+          <template #show>
+            <QueryItem> 123</QueryItem>
+          </template>
+          <template #addBtn>
+            <el-button type="primary">新 增</el-button>
+          </template>
+        </QueryBox>
       </template>
       <template #default>
         <el-table :data="list">
@@ -126,14 +126,14 @@ const ask = async () => {
         </el-table>
       </template>
     </TableBox>
-    <!--    <Edit v-if="dialog['new']" @close="closeAdd" @complete="addComplete" />-->
-    <!--    <Edit-->
-    <!--      v-if="dialog['edit']"-->
-    <!--      :row="dialog['row']"-->
-    <!--      :dialog-type="'edit'"-->
-    <!--      @close="closeEdit"-->
-    <!--      @complete="editComplete"-->
-    <!--    />-->
+    <Edit v-if="dialog['new']" @close="closeAdd" @complete="addComplete" />
+    <Edit
+      v-if="dialog['edit']"
+      :row="dialog['row']"
+      :dialog-type="'edit'"
+      @close="closeEdit"
+      @complete="editComplete"
+    />
   </div>
 </template>
 
